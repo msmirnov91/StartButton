@@ -5,11 +5,9 @@
  *  Author: mikhail
  */ 
 
-
 #include "Setup.h"
 #include "LowLevel.h"
 #include "Interrupts.h"
-
 
 void setupPins(void)
 {
@@ -24,13 +22,11 @@ void setupPins(void)
 	IO_PORT &= ~(1 << TACH_PIN);
 }
 
-
 void setupADC(void)
 {
 	ADCSRA = (1 << ADEN) | (1 << ADPS2) | (1 << ADPS1) | (1 << ADPS0);
 	ADMUX = (1 << REFS0);
 }
-
 
 void setup(void)
 {

@@ -5,16 +5,12 @@
  *  Author: mikhail
  */ 
 
-
 #ifndef LOWLEVEL_H_
 #define LOWLEVEL_H_
 
-
 #include "Defines.h"
 
-
 #include <avr/io.h>
-
 
 void calibrateInternalOscillator(void);
 int getTachPinState(void);
@@ -31,6 +27,5 @@ void initRPMCountTimer(void);
 void startRPMCountTimer(void);
 
 void initCutoffTimer(void);
-
 
 #endif /* LOWLEVEL_H_ */

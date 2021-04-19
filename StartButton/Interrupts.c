@@ -5,7 +5,6 @@
  *  Author: mikhail
  */ 
 
-
 #include "Interrupts.h"
 #include "LowLevel.h"
 #include<avr/interrupt.h>
@@ -16,12 +15,9 @@
 #define CUTOFF_TIMER_INTERRUPT_VEC TIMER1_COMPA_vect
 #define RPM_COUNT_TIMER_INTERRUPT_VEC TIMER2_COMP_vect
 
-
 volatile GlobalData globalData;
 
-
 EMPTY_INTERRUPT(BADISR_vect);
-
 
 #define DEBOUNCE_CHECK_AMOUNT 3
 #define DEBOUNCE_DELAY_ITERATIONS 1000
@@ -47,12 +43,10 @@ ISR(BUTTON_INTERRUPT_VEC)
 	}
 }
 
-
 ISR(CUTOFF_TIMER_INTERRUPT_VEC)
 {
 	globalData.turnOnStarter = 0;
 }
-
 
 #define HALF_SECOND_INTERRUPTS_AMOUNT 25
 #define PULSE_THRESHOLD 5
@@ -76,7 +70,6 @@ ISR(RPM_COUNT_TIMER_INTERRUPT_VEC)
 	}
 }
 
-
 void initGlobalData(void)
 {
 	globalData.tachPulses = 0;
@@ -84,7 +77,6 @@ void initGlobalData(void)
 	globalData.turnOnStarter = 0;
 	globalData.engineIsRunning = 0;
 }
-
 
 void setupExternalInterrupts(void)
 {
@@ -99,20 +91,17 @@ void setupExternalInterrupts(void)
 	GIFR |= 1 << INTF0;
 }
 
-
 void enableTimerInterrupts(void)
 {
 	TIMSK |= 1 << OCIE1A;
 	TIMSK |= 1 << OCIE2;
 }
 
-
 void clearTimerInterruptsFlags(void)
 {
 	TIFR |= 1 << OCF1A;
 	TIFR |= 1 << OCF2;
 }
-
 
 void setupTimerInterrupts(void)
 {
@@ -125,7 +114,6 @@ void setupTimerInterrupts(void)
 	enableTimerInterrupts();
 	clearTimerInterruptsFlags();
 }
-
 
 void setupInterrupts(void)
 {

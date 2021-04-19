@@ -5,13 +5,11 @@
  *  Author: mikhail
  */ 
 
-
 #ifndef INTERRUPTS_H_
 #define INTERRUPTS_H_
 
 #include "Defines.h"
 #include <util/delay.h>
-
 
 typedef struct GlobalData_impl
 {
@@ -24,6 +22,5 @@ typedef struct GlobalData_impl
 extern volatile GlobalData globalData;
 
 void setupInterrupts(void);
-
 
 #endif /* INTERRUPTS_H_ */

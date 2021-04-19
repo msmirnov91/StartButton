@@ -5,17 +5,14 @@
  *  Author: mikhail
  */ 
 
-
 #include "LowLevel.h"
 
 #include "Defines.h"
-
 
 void calibrateInternalOscillator(void)
 {
 	OSCCAL = 0xfa;
 }
-
 
 int getPinState(uint8_t pin)
 {
@@ -23,12 +20,10 @@ int getPinState(uint8_t pin)
 	return pinValue != 0;
 }
 
-
 int getTachPinState(void)
 {
 	return getPinState(TACH_PIN);
 }
-
 
 unsigned int getADCValue(void)
 {
@@ -37,12 +32,10 @@ unsigned int getADCValue(void)
 	return ADCW;
 }
 
-
 int isStartButtonPressed(void)
 {
 	return getPinState(BUTTON_PIN);
 }
-
 
 void setCTCMode(volatile uint8_t* reg)
 {
@@ -58,7 +51,6 @@ void setCTCMode(volatile uint8_t* reg)
 		*reg &= ~(1 << WGM20);
 	}
 }
-
 
 void startTimerDiv1024(volatile uint8_t* reg)
 {
@@ -77,20 +69,17 @@ void startTimerDiv1024(volatile uint8_t* reg)
 	}
 }
 
-
 void resetCutoffTimer(void)
 {
 	TCNT1 = TCNT_4_SEC;
 	TCCR1B &= STOP_TIMER_MASK;
 }
 
-
 void resetRPMCountTimer(void)
 { 
 	TCNT2 = TCNT_20_MSEC;
 	TCCR2 &= STOP_TIMER_MASK;
 }
-
 
 void initCutoffTimer(void)
 {
@@ -100,12 +89,10 @@ void initCutoffTimer(void)
 	OCR1A = OCR_4_SEC;
 }
 
-
 void startCutoffTimer(void)
 {
 	startTimerDiv1024(&TCCR1B);
 }
-
 
 void initRPMCountTimer(void)
 {
@@ -115,12 +102,10 @@ void initRPMCountTimer(void)
 	OCR2 = OCR_20_MSEC;	
 }
 
-
 void startRPMCountTimer()
 {
 	startTimerDiv1024(&TCCR2);
 }
-
 
 void starterOn(void)
 {
@@ -130,7 +115,6 @@ void starterOn(void)
 	startCutoffTimer();
 }
 
-
 void starterOff(void)
 {
 	IO_PORT &= ~(1 << STARTER_PIN);
@@ -139,12 +123,10 @@ void starterOff(void)
 	resetCutoffTimer();
 }
 
-
 void indicateEngineIsRunning(void)
 {
 	IO_PORT |= 1 << IS_RUNNING_LED;
 }
-
 
 void indicateEngineIsOff(void)
 {

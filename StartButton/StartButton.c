@@ -9,13 +9,10 @@
 #include "LowLevel.h"
 #include "Interrupts.h"
 
-
 typedef enum TachPinState_impl {LOW = 0, HIGH = 1} TachPinState;
-
 
 void countPulses(TachPinState*);
 int newPulseDetected(TachPinState*);
-
 
 int main(void)
 {
@@ -25,15 +22,6 @@ int main(void)
 
     while(1)
     {
-		if (getADCValue() > 512)
-		{
-			indicateEngineIsRunning();
-		}
-		else
-		{
-			indicateEngineIsOff();
-		}
-
 		countPulses(&prevTachState);
 		
 		if (globalData.engineIsRunning)
@@ -43,7 +31,7 @@ int main(void)
 		}
 		else
 		{
-			//indicateEngineIsOff();
+			indicateEngineIsOff();
 		}	
 		
 		if (globalData.turnOnStarter)
@@ -57,7 +45,6 @@ int main(void)
     }
 }
 
-
 void countPulses(TachPinState* prevState)
 {
 	if (newPulseDetected(prevState))
@@ -67,7 +54,6 @@ void countPulses(TachPinState* prevState)
 			globalData.tachPulses++;
 	}
 }
-
 
 int newPulseDetected(TachPinState* prevState)
 {
