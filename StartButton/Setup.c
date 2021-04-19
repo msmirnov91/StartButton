@@ -11,15 +11,16 @@
 
 void setupPins(void)
 {
-	IO_DDR |= 1 << STARTER_PIN;
-	IO_DDR |= 1 << STARTER_LED;
-	IO_DDR |= 1 << IS_RUNNING_LED;
+	STARTER_DDR |= 1 << STARTER_PIN;
+
+	LED_DDR |= 1 << FATAL_ERROR_LED;
+	LED_DDR |= 1 << STARTER_LED;
+	LED_DDR |= 1 << IS_RUNNING_LED;
 	
-	IO_DDR &= ~(1 << BUTTON_PIN);
-	IO_DDR &= ~(1 << TACH_PIN);
-	
-	IO_PORT &= ~(1 << BUTTON_PIN);
-	IO_PORT &= ~(1 << TACH_PIN);
+	INPUT_DDR &= ~(1 << BUTTON_PIN);
+	INPUT_DDR &= ~(1 << TACH_PIN);
+	INPUT_PORT &= ~(1 << BUTTON_PIN);
+	INPUT_PORT &= ~(1 << TACH_PIN);
 }
 
 void setupADC(void)

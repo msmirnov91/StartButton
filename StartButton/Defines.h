@@ -18,15 +18,20 @@
 
 
 /*  ======= IO =======  */
-#define IO_DDR DDRD
-#define IO_PORT PORTD
+#define STARTER_DDR DDRC
+#define STARTER_PORT PORTC
+#define STARTER_PIN PC4
 
-#define STARTER_PIN PD0
+#define INPUT_DDR DDRD
+#define INPUT_PORT PORTD
 #define BUTTON_PIN PD2
 #define TACH_PIN PD3
 
-#define STARTER_LED PD6
-#define IS_RUNNING_LED PD7
+#define LED_DDR DDRB
+#define LED_PORT PORTB
+#define FATAL_ERROR_LED PB0
+#define STARTER_LED PB1
+#define IS_RUNNING_LED PB2
 
 
 /*  ======= TIMERS =======  */ 

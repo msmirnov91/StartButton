@@ -68,26 +68,26 @@ void startCutoffTimer(void)
 
 void starterOn(void)
 {
-	IO_PORT |= 1 << STARTER_PIN;
-	IO_PORT |= 1 << STARTER_LED;
+	STARTER_PORT |= 1 << STARTER_PIN;
+	LED_PORT |= 1 << STARTER_LED;
 	
 	startCutoffTimer();
 }
 
 void starterOff(void)
 {
-	IO_PORT &= ~(1 << STARTER_PIN);
-	IO_PORT &= ~(1 << STARTER_LED);
+	STARTER_PORT &= ~(1 << STARTER_PIN);
+	LED_PORT &= ~(1 << STARTER_LED);
 
 	resetCutoffTimer();
 }
 
 void indicateEngineIsRunning(void)
 {
-	IO_PORT |= 1 << IS_RUNNING_LED;
+	LED_PORT |= 1 << IS_RUNNING_LED;
 }
 
 void indicateEngineIsOff(void)
 {
-	IO_PORT &= ~(1 << IS_RUNNING_LED);
+	LED_PORT &= ~(1 << IS_RUNNING_LED);
 }
