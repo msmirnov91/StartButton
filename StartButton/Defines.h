@@ -33,11 +33,8 @@
 #define STOP_TIMER_MASK 0b11111000
 
 // 16 bit
-#define OCR_4_SEC 0x7A11
-#define TCNT_4_SEC 0x85EE
-// 8 bit
-#define OCR_20_MSEC 0x9B
-#define TCNT_20_MSEC 0x64
+#define OCR_4_SEC 0xF424
+#define TCNT_4_SEC 0x0BDC
 
 
 #endif /* DEFINES_H_ */
