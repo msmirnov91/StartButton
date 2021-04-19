@@ -13,7 +13,6 @@
 #define BUTTON_INTERRUPT_VEC INT0_vect
 
 #define CUTOFF_TIMER_INTERRUPT_VEC TIMER1_COMPA_vect
-#define RPM_COUNT_TIMER_INTERRUPT_VEC TIMER2_COMP_vect
 
 volatile GlobalData globalData;
 
@@ -51,29 +50,8 @@ ISR(CUTOFF_TIMER_INTERRUPT_VEC)
 #define HALF_SECOND_INTERRUPTS_AMOUNT 25
 #define PULSE_THRESHOLD 5
 
-ISR(RPM_COUNT_TIMER_INTERRUPT_VEC)
-{
-	globalData.rpmTimerInterrupts += 1;
-	if (globalData.rpmTimerInterrupts > HALF_SECOND_INTERRUPTS_AMOUNT)
-	{
-		if (globalData.tachPulses > PULSE_THRESHOLD)
-		{
-			globalData.engineIsRunning = 1;
-		}
-		else
-		{
-			globalData.engineIsRunning = 0;
-		}
-
-		globalData.rpmTimerInterrupts = 0;
-		globalData.tachPulses = 0;
-	}
-}
-
 void initGlobalData(void)
 {
-	globalData.tachPulses = 0;
-	globalData.rpmTimerInterrupts = 0;
 	globalData.turnOnStarter = 0;
 	globalData.engineIsRunning = 0;
 }
@@ -107,8 +85,6 @@ void setupTimerInterrupts(void)
 {
 	/* use avrcalc tool to easily
 	get timer control register values */
-	
-	initRPMCountTimer();
 	initCutoffTimer();
 	
 	enableTimerInterrupts();

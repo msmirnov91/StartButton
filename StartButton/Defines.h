@@ -13,6 +13,10 @@
 #define F_CPU 16000000L
 
 
+/*  ======= THRESHOLDS =======  */
+#define ENGINE_ON_LEVEL 512
+
+
 /*  ======= IO =======  */
 #define IO_DDR DDRD
 #define IO_PORT PORTD

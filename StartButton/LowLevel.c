@@ -8,27 +8,11 @@
 #include "LowLevel.h"
 #include "Defines.h"
 
-int getPinState(uint8_t pin)
-{
-	int pinValue = PIND & (1 << pin);
-	return pinValue != 0;
-}
-
-int getTachPinState(void)
-{
-	return getPinState(TACH_PIN);
-}
-
 unsigned int getADCValue(void)
 {
 	ADCSRA |= (1 << ADSC);
 	while (ADCSRA & (1 << ADSC));
 	return ADCW;
-}
-
-int isStartButtonPressed(void)
-{
-	return getPinState(BUTTON_PIN);
 }
 
 void setCTCMode(volatile uint8_t* reg)
@@ -69,12 +53,6 @@ void resetCutoffTimer(void)
 	TCCR1B &= STOP_TIMER_MASK;
 }
 
-void resetRPMCountTimer(void)
-{ 
-	TCNT2 = TCNT_20_MSEC;
-	TCCR2 &= STOP_TIMER_MASK;
-}
-
 void initCutoffTimer(void)
 {
 	setCTCMode(&TCCR1B);
@@ -86,19 +64,6 @@ void initCutoffTimer(void)
 void startCutoffTimer(void)
 {
 	startTimerDiv1024(&TCCR1B);
-}
-
-void initRPMCountTimer(void)
-{
-	setCTCMode(&TCCR2);
-	resetRPMCountTimer();
-
-	OCR2 = OCR_20_MSEC;	
-}
-
-void startRPMCountTimer()
-{
-	startTimerDiv1024(&TCCR2);
 }
 
 void starterOn(void)

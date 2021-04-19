@@ -11,18 +11,13 @@
 #include "Defines.h"
 #include <avr/io.h>
 
-int getTachPinState(void);
 unsigned int getADCValue(void);
-int isStartButtonPressed(void);
 
 void starterOn(void);
 void starterOff(void);
 
 void indicateEngineIsRunning(void);
 void indicateEngineIsOff(void);
-
-void initRPMCountTimer(void);
-void startRPMCountTimer(void);
 
 void initCutoffTimer(void);
 
