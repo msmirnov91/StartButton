@@ -9,9 +9,12 @@
 #ifndef DEFINES_H_
 #define DEFINES_H_
 
+
+/*  ======= COMMON =======  */
 #define F_CPU 16000000L
 
 
+/*  ======= IO =======  */
 #define IO_DDR DDRD
 #define IO_PORT PORTD
 
@@ -23,6 +26,7 @@
 #define IS_RUNNING_LED PD7
 
 
+/*  ======= TIMERS =======  */ 
 #define STOP_TIMER_MASK 0b11111000
 
 // 16 bit
@@ -31,5 +35,6 @@
 // 8 bit
 #define OCR_20_MSEC 0x9B
 #define TCNT_20_MSEC 0x64
+
 
 #endif /* DEFINES_H_ */
