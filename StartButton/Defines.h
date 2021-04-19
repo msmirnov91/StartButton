@@ -9,7 +9,7 @@
 #ifndef DEFINES_H_
 #define DEFINES_H_
 
-#define F_CPU 8000000L
+#define F_CPU 16000000L
 
 
 #define IO_DDR DDRD
