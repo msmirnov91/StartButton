@@ -6,13 +6,7 @@
  */ 
 
 #include "LowLevel.h"
-
 #include "Defines.h"
-
-void calibrateInternalOscillator(void)
-{
-	OSCCAL = 0xfa;
-}
 
 int getPinState(uint8_t pin)
 {

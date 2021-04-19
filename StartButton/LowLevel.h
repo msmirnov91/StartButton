@@ -9,10 +9,8 @@
 #define LOWLEVEL_H_
 
 #include "Defines.h"
-
 #include <avr/io.h>
 
-void calibrateInternalOscillator(void);
 int getTachPinState(void);
 unsigned int getADCValue(void);
 int isStartButtonPressed(void);

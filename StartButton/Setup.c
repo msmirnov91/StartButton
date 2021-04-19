@@ -30,7 +30,6 @@ void setupADC(void)
 
 void setup(void)
 {
-	calibrateInternalOscillator();
 	setupInterrupts();
 	setupPins();
 	setupADC();	
