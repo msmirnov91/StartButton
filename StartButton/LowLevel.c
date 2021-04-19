@@ -8,14 +8,7 @@
 
 #include "LowLevel.h"
 
-#define STOP_TIMER_MASK 0b11111000
-
-// 16 bit
-#define OCR_4_SEC 0x7A11
-#define TCNT_4_SEC 0x85EE
-// 8 bit
-#define OCR_20_MSEC 0x9B
-#define TCNT_20_MSEC 0x64
+#include "Defines.h"
 
 
 void calibrateInternalOscillator(void)
@@ -34,6 +27,14 @@ int getPinState(uint8_t pin)
 int getTachPinState(void)
 {
 	return getPinState(TACH_PIN);
+}
+
+
+unsigned int getADCValue(void)
+{
+	ADCSRA |= (1 << ADSC);
+	while (ADCSRA & (1 << ADSC));
+	return ADCW;
 }
 
 

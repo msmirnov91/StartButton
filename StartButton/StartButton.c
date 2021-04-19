@@ -25,6 +25,15 @@ int main(void)
 
     while(1)
     {
+		if (getADCValue() > 512)
+		{
+			indicateEngineIsRunning();
+		}
+		else
+		{
+			indicateEngineIsOff();
+		}
+
 		countPulses(&prevTachState);
 		
 		if (globalData.engineIsRunning)
@@ -34,7 +43,7 @@ int main(void)
 		}
 		else
 		{
-			indicateEngineIsOff();
+			//indicateEngineIsOff();
 		}	
 		
 		if (globalData.turnOnStarter)

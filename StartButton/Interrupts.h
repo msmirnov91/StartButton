@@ -9,8 +9,7 @@
 #ifndef INTERRUPTS_H_
 #define INTERRUPTS_H_
 
-
-#define F_CPU 8000000L
+#include "Defines.h"
 #include <util/delay.h>
 
 

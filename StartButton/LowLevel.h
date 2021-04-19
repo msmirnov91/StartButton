@@ -10,15 +10,7 @@
 #define LOWLEVEL_H_
 
 
-#define IO_DDR DDRD
-#define IO_PORT PORTD
-
-#define STARTER_PIN PD0
-#define BUTTON_PIN PD2
-#define TACH_PIN PD3
-
-#define STARTER_LED PD6
-#define IS_RUNNING_LED PD7
+#include "Defines.h"
 
 
 #include <avr/io.h>
@@ -26,6 +18,7 @@
 
 void calibrateInternalOscillator(void);
 int getTachPinState(void);
+unsigned int getADCValue(void);
 int isStartButtonPressed(void);
 
 void starterOn(void);

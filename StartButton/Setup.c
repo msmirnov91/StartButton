@@ -25,11 +25,19 @@ void setupPins(void)
 }
 
 
+void setupADC(void)
+{
+	ADCSRA = (1 << ADEN) | (1 << ADPS2) | (1 << ADPS1) | (1 << ADPS0);
+	ADMUX = (1 << REFS0);
+}
+
+
 void setup(void)
 {
 	calibrateInternalOscillator();
 	setupInterrupts();
 	setupPins();
+	setupADC();	
 
 	starterOff();
 }
