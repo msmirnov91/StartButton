@@ -11,13 +11,19 @@
 #include "Defines.h"
 #include <avr/io.h>
 
-unsigned int getADCValue(void);
+uint16_t getADCValue(uint8_t channel);
+
+void ignitionOn(void);
+void ignitionOff(void);
 
 void starterOn(void);
 void starterOff(void);
 
 void indicateEngineIsRunning(void);
 void indicateEngineIsOff(void);
+
+void indicateFatalError(void);
+void turnOffFatalErrorIndicaton(void);
 
 void initCutoffTimer(void);
 

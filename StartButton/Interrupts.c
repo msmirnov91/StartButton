@@ -59,26 +59,24 @@ void initGlobalData(void)
 void setupExternalInterrupts(void)
 {
 	// interrupt by rising edge
-	MCUCR |= 1 << ISC01;
-	MCUCR |= 1 << ISC00;
+	EICRA |= 1 << ISC01;
+	EICRA |= 1 << ISC00;
 	
 	// enable external interrupt
-	GICR |= 1 << BUTTON_INTERRUPT;
+	EIMSK |= 1 << BUTTON_INTERRUPT;
 	
 	// clear external interrupt flag
-	GIFR |= 1 << INTF0;
+	EIFR |= 1 << INTF0;
 }
 
 void enableTimerInterrupts(void)
 {
-	TIMSK |= 1 << OCIE1A;
-	TIMSK |= 1 << OCIE2;
+	TIMSK1 |= 1 << OCIE1A;
 }
 
 void clearTimerInterruptsFlags(void)
 {
-	TIFR |= 1 << OCF1A;
-	TIFR |= 1 << OCF2;
+	TIFR1 |= 1 << OCF1A;
 }
 
 void setupTimerInterrupts(void)

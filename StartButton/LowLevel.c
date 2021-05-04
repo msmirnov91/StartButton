@@ -8,11 +8,24 @@
 #include "LowLevel.h"
 #include "Defines.h"
 
-unsigned int getADCValue(void)
+uint16_t getADCValue(uint8_t channel)
 {
+	ADMUX = (ADMUX & 0xf0) | channel;
 	ADCSRA |= (1 << ADSC);
-	while (ADCSRA & (1 << ADSC));
-	return ADCW;
+	while(!(ADCSRA && (1 << ADIF)));
+	ADCSRA |= (1 << ADIF);
+ 
+	return ADC;
+}
+
+void turnOnPin(volatile uint8_t* port, uint8_t pin)
+{
+	*port |= 1 << pin;
+}
+
+void turnOffPin(volatile uint8_t* port, uint8_t pin)
+{
+	*port &= ~(1 << pin);
 }
 
 void setCTCMode(volatile uint8_t* reg)
@@ -22,12 +35,6 @@ void setCTCMode(volatile uint8_t* reg)
 		*reg |= 1 << WGM12;
 		*reg &= ~(1 << WGM13);
 	}	
-
-	if (*reg == TCCR2)
-	{
-		*reg |= 1 << WGM21;
-		*reg &= ~(1 << WGM20);
-	}
 }
 
 void startTimerDiv1024(volatile uint8_t* reg)
@@ -37,13 +44,6 @@ void startTimerDiv1024(volatile uint8_t* reg)
 		*reg |= 1 << CS12;
 		*reg &= ~(1 << CS11);
 		*reg |= 1 << CS10;
-	}
-
-	if (*reg == TCCR2)
-	{
-		*reg |= 1 << CS22;
-		*reg |= 1 << CS21;
-		*reg |= 1 << CS20;
 	}
 }
 
@@ -66,28 +66,48 @@ void startCutoffTimer(void)
 	startTimerDiv1024(&TCCR1B);
 }
 
+void ignitionOn(void)
+{
+	turnOnPin(&STARTER_PORT, IGNITION_PIN);
+}
+
+void ignitionOff(void)
+{
+	turnOffPin(&STARTER_PORT, IGNITION_PIN);
+}
+
 void starterOn(void)
 {
-	STARTER_PORT |= 1 << STARTER_PIN;
-	LED_PORT |= 1 << STARTER_LED;
+	turnOnPin(&STARTER_PORT, STARTER_PIN);
+	turnOnPin(&LED_PORT, STARTER_LED);
 	
 	startCutoffTimer();
 }
 
 void starterOff(void)
 {
-	STARTER_PORT &= ~(1 << STARTER_PIN);
-	LED_PORT &= ~(1 << STARTER_LED);
+	turnOffPin(&STARTER_PORT, STARTER_PIN);
+	turnOffPin(&LED_PORT, STARTER_LED);
 
 	resetCutoffTimer();
 }
 
 void indicateEngineIsRunning(void)
 {
-	LED_PORT |= 1 << IS_RUNNING_LED;
+	turnOnPin(&LED_PORT, IS_RUNNING_LED);
 }
 
 void indicateEngineIsOff(void)
 {
-	LED_PORT &= ~(1 << IS_RUNNING_LED);
+	turnOffPin(&LED_PORT, IS_RUNNING_LED);
+}
+
+void indicateFatalError(void)
+{
+	turnOnPin(&LED_PORT, FATAL_ERROR_LED);
+}
+
+void turnOffFatalErrorIndicaton(void)
+{
+	turnOffPin(&LED_PORT, FATAL_ERROR_LED);
 }

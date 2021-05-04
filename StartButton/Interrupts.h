@@ -13,8 +13,6 @@
 
 typedef struct GlobalData_impl
 {
-	int tachPulses;
-	int rpmTimerInterrupts;
 	int turnOnStarter;
 	int engineIsRunning;
 } GlobalData;

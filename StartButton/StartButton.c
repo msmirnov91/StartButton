@@ -9,29 +9,64 @@
 #include "LowLevel.h"
 #include "Interrupts.h"
 
+void mainLoop(void);
+void testPCBLoop(void);
+
 int main(void)
 {
 	setup();
 
     while(1)
     {
-		if (getADCValue()>= ENGINE_ON_LEVEL) {
-			globalData.engineIsRunning = 1;
-		} else {
-			globalData.engineIsRunning = 0;
-		}
-
-		if (globalData.engineIsRunning) {
-			globalData.turnOnStarter = 0;
-			indicateEngineIsRunning();
-		} else {
-			indicateEngineIsOff();
-		}	
-		
-		if (globalData.turnOnStarter) {
-			starterOn();	
-		} else {
-			starterOff();
-		}					
+		#ifdef PCB_TEST_MODE
+			testPCBLoop();
+		#else
+			mainLoop();
+		#endif
     }
+}
+
+void mainLoop(void)
+{
+	if (getADCValue(TACH_CHANNEL) >= ENGINE_ON_LEVEL) {
+		globalData.engineIsRunning = 1;
+	} else {
+		globalData.engineIsRunning = 0;
+	}
+
+	if (globalData.engineIsRunning) {
+		globalData.turnOnStarter = 0;
+		indicateEngineIsRunning();
+	} else {
+		indicateEngineIsOff();
+	}	
+		
+	if (globalData.turnOnStarter) {
+		starterOn();	
+	} else {
+		starterOff();
+	}
+}
+
+void testPCBLoop(void)
+{
+	ignitionOn();
+	_delay_ms(1000);
+	ignitionOff();
+	_delay_ms(1000);
+	starterOn();
+	_delay_ms(1000);
+	starterOff();
+	_delay_ms(1000);
+	indicateFatalError();
+	_delay_ms(1000);
+	turnOffFatalErrorIndicaton();
+	_delay_ms(1000);
+	
+	unsigned int adcValue = getADCValue(TACH_CHANNEL);
+	if (adcValue >= ENGINE_ON_LEVEL) {
+		indicateEngineIsRunning();
+	} else {
+		indicateEngineIsOff();
+	}
 }
