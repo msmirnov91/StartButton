@@ -5,43 +5,28 @@
  *  Author: mikhail
  */ 
 
-
 #include "LowLevel.h"
+#include "Defines.h"
 
-#define STOP_TIMER_MASK 0b11111000
-
-// 16 bit
-#define OCR_4_SEC 0x7A11
-#define TCNT_4_SEC 0x85EE
-// 8 bit
-#define OCR_20_MSEC 0x9B
-#define TCNT_20_MSEC 0x64
-
-
-void calibrateInternalOscillator(void)
+uint16_t getADCValue(uint8_t channel)
 {
-	OSCCAL = 0xfa;
+	ADMUX = (ADMUX & 0xf0) | channel;
+	ADCSRA |= (1 << ADSC);
+	while(!(ADCSRA && (1 << ADIF)));
+	ADCSRA |= (1 << ADIF);
+ 
+	return ADC;
 }
 
-
-int getPinState(uint8_t pin)
+void turnOnPin(volatile uint8_t* port, uint8_t pin)
 {
-	int pinValue = PIND & (1 << pin);
-	return pinValue != 0;
+	*port |= 1 << pin;
 }
 
-
-int getTachPinState(void)
+void turnOffPin(volatile uint8_t* port, uint8_t pin)
 {
-	return getPinState(TACH_PIN);
+	*port &= ~(1 << pin);
 }
-
-
-int isStartButtonPressed(void)
-{
-	return getPinState(BUTTON_PIN);
-}
-
 
 void setCTCMode(volatile uint8_t* reg)
 {
@@ -50,14 +35,7 @@ void setCTCMode(volatile uint8_t* reg)
 		*reg |= 1 << WGM12;
 		*reg &= ~(1 << WGM13);
 	}	
-
-	if (*reg == TCCR2)
-	{
-		*reg |= 1 << WGM21;
-		*reg &= ~(1 << WGM20);
-	}
 }
-
 
 void startTimerDiv1024(volatile uint8_t* reg)
 {
@@ -67,29 +45,13 @@ void startTimerDiv1024(volatile uint8_t* reg)
 		*reg &= ~(1 << CS11);
 		*reg |= 1 << CS10;
 	}
-
-	if (*reg == TCCR2)
-	{
-		*reg |= 1 << CS22;
-		*reg |= 1 << CS21;
-		*reg |= 1 << CS20;
-	}
 }
-
 
 void resetCutoffTimer(void)
 {
 	TCNT1 = TCNT_4_SEC;
 	TCCR1B &= STOP_TIMER_MASK;
 }
-
-
-void resetRPMCountTimer(void)
-{ 
-	TCNT2 = TCNT_20_MSEC;
-	TCCR2 &= STOP_TIMER_MASK;
-}
-
 
 void initCutoffTimer(void)
 {
@@ -99,53 +61,53 @@ void initCutoffTimer(void)
 	OCR1A = OCR_4_SEC;
 }
 
-
 void startCutoffTimer(void)
 {
 	startTimerDiv1024(&TCCR1B);
 }
 
-
-void initRPMCountTimer(void)
+void ignitionOn(void)
 {
-	setCTCMode(&TCCR2);
-	resetRPMCountTimer();
-
-	OCR2 = OCR_20_MSEC;	
+	turnOnPin(&STARTER_PORT, IGNITION_PIN);
 }
 
-
-void startRPMCountTimer()
+void ignitionOff(void)
 {
-	startTimerDiv1024(&TCCR2);
+	turnOffPin(&STARTER_PORT, IGNITION_PIN);
 }
-
 
 void starterOn(void)
 {
-	IO_PORT |= 1 << STARTER_PIN;
-	IO_PORT |= 1 << STARTER_LED;
+	turnOnPin(&STARTER_PORT, STARTER_PIN);
+	turnOnPin(&LED_PORT, STARTER_LED);
 	
 	startCutoffTimer();
 }
 
-
 void starterOff(void)
 {
-	IO_PORT &= ~(1 << STARTER_PIN);
-	IO_PORT &= ~(1 << STARTER_LED);
+	turnOffPin(&STARTER_PORT, STARTER_PIN);
+	turnOffPin(&LED_PORT, STARTER_LED);
 
 	resetCutoffTimer();
 }
 
-
 void indicateEngineIsRunning(void)
 {
-	IO_PORT |= 1 << IS_RUNNING_LED;
+	turnOnPin(&LED_PORT, IS_RUNNING_LED);
 }
-
 
 void indicateEngineIsOff(void)
 {
-	IO_PORT &= ~(1 << IS_RUNNING_LED);
+	turnOffPin(&LED_PORT, IS_RUNNING_LED);
+}
+
+void indicateFatalError(void)
+{
+	turnOnPin(&LED_PORT, FATAL_ERROR_LED);
+}
+
+void turnOffFatalErrorIndicaton(void)
+{
+	turnOffPin(&LED_PORT, FATAL_ERROR_LED);
 }

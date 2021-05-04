@@ -9,65 +9,64 @@
 #include "LowLevel.h"
 #include "Interrupts.h"
 
-
-typedef enum TachPinState_impl {LOW = 0, HIGH = 1} TachPinState;
-
-
-void countPulses(TachPinState*);
-int newPulseDetected(TachPinState*);
-
+void mainLoop(void);
+void testPCBLoop(void);
 
 int main(void)
 {
 	setup();
-	TachPinState prevTachState = LOW;
-	startRPMCountTimer();
 
     while(1)
     {
-		countPulses(&prevTachState);
-		
-		if (globalData.engineIsRunning)
-		{
-			globalData.turnOnStarter = 0;
-			indicateEngineIsRunning();
-		}
-		else
-		{
-			indicateEngineIsOff();
-		}	
-		
-		if (globalData.turnOnStarter)
-		{
-			starterOn();	
-		}
-		else
-		{
-			starterOff();
-		}					
+		#ifdef PCB_TEST_MODE
+			testPCBLoop();
+		#else
+			mainLoop();
+		#endif
     }
 }
 
-
-void countPulses(TachPinState* prevState)
+void mainLoop(void)
 {
-	if (newPulseDetected(prevState))
-	{
-		// I know int can store bigger values, but we don't need them
-		if (globalData.tachPulses < 255)
-			globalData.tachPulses++;
+	if (getADCValue(TACH_CHANNEL) >= ENGINE_ON_LEVEL) {
+		globalData.engineIsRunning = 1;
+	} else {
+		globalData.engineIsRunning = 0;
+	}
+
+	if (globalData.engineIsRunning) {
+		globalData.turnOnStarter = 0;
+		indicateEngineIsRunning();
+	} else {
+		indicateEngineIsOff();
+	}	
+		
+	if (globalData.turnOnStarter) {
+		starterOn();	
+	} else {
+		starterOff();
 	}
 }
 
-
-int newPulseDetected(TachPinState* prevState)
+void testPCBLoop(void)
 {
-	TachPinState currState = getTachPinState();
-
-	int result = 0;
-	if (currState == HIGH && *prevState == LOW)
-		result = 1;
+	ignitionOn();
+	_delay_ms(1000);
+	ignitionOff();
+	_delay_ms(1000);
+	starterOn();
+	_delay_ms(1000);
+	starterOff();
+	_delay_ms(1000);
+	indicateFatalError();
+	_delay_ms(1000);
+	turnOffFatalErrorIndicaton();
+	_delay_ms(1000);
 	
-	*prevState = currState;
-	return result;
+	unsigned int adcValue = getADCValue(TACH_CHANNEL);
+	if (adcValue >= ENGINE_ON_LEVEL) {
+		indicateEngineIsRunning();
+	} else {
+		indicateEngineIsOff();
+	}
 }

@@ -5,31 +5,34 @@
  *  Author: mikhail
  */ 
 
-
 #include "Setup.h"
 #include "LowLevel.h"
 #include "Interrupts.h"
 
-
 void setupPins(void)
 {
-	IO_DDR |= 1 << STARTER_PIN;
-	IO_DDR |= 1 << STARTER_LED;
-	IO_DDR |= 1 << IS_RUNNING_LED;
+	STARTER_DDR |= 1 << STARTER_PIN;
+	STARTER_DDR |= 1 << IGNITION_PIN;
+
+	LED_DDR |= 1 << FATAL_ERROR_LED;
+	LED_DDR |= 1 << STARTER_LED;
+	LED_DDR |= 1 << IS_RUNNING_LED;
 	
-	IO_DDR &= ~(1 << BUTTON_PIN);
-	IO_DDR &= ~(1 << TACH_PIN);
-	
-	IO_PORT &= ~(1 << BUTTON_PIN);
-	IO_PORT &= ~(1 << TACH_PIN);
+	INPUT_DDR &= ~(1 << BUTTON_PIN);
+	INPUT_PORT &= ~(1 << BUTTON_PIN);
 }
 
+void setupADC(void)
+{
+	ADCSRA = (1 << ADEN) | (1 << ADIE) | (1 << ADPS2) | (1 << ADPS1) | (1 << ADPS0);
+	ADMUX |= (1 << REFS0);  // AVCC reference with capacitor at AREF
+}
 
 void setup(void)
 {
-	calibrateInternalOscillator();
 	setupInterrupts();
 	setupPins();
+	setupADC();	
 
 	starterOff();
 }
