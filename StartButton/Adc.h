@@ -11,6 +11,7 @@
 
 #include <avr/io.h>
 
+void setupADC(void);
 uint16_t getADCValue(uint8_t channel);
 
 #endif /* ADC_H_ */

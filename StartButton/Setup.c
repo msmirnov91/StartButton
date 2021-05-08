@@ -9,6 +9,7 @@
 #include "Defines.h"
 #include "LowLevel.h"
 #include "Interrupts.h"
+#include "Adc.h"
 #include <avr/io.h>
 
 void setupPins(void)
@@ -22,12 +23,6 @@ void setupPins(void)
 	
 	INPUT_DDR &= ~(1 << BUTTON_PIN);
 	INPUT_PORT &= ~(1 << BUTTON_PIN);
-}
-
-void setupADC(void)
-{
-	ADCSRA = (1 << ADEN) | (1 << ADPS2) | (1 << ADPS1) | (1 << ADPS0);
-	ADMUX |= (1 << REFS0);  // AVCC reference with capacitor at AREF
 }
 
 void setup(void)
