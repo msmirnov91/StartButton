@@ -37,6 +37,16 @@
 #define IS_RUNNING_LED PB2
 
 
+/*  ======= INTERRUPTS =======  */ 
+#define BUTTON_INTERRUPT INT0
+#define BUTTON_INTERRUPT_VEC INT0_vect
+
+#define CUTOFF_TIMER_INTERRUPT_VEC TIMER1_COMPA_vect
+
+#define DEBOUNCE_CHECK_AMOUNT 3
+#define DEBOUNCE_DELAY_ITERATIONS 1000
+
+
 /*  ======= TIMERS =======  */ 
 #define STOP_TIMER_MASK 0b11111000
 

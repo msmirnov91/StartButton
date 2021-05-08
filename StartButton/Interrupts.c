@@ -9,17 +9,9 @@
 #include "LowLevel.h"
 #include<avr/interrupt.h>
 
-#define BUTTON_INTERRUPT INT0
-#define BUTTON_INTERRUPT_VEC INT0_vect
-
-#define CUTOFF_TIMER_INTERRUPT_VEC TIMER1_COMPA_vect
-
 volatile GlobalData globalData;
 
 EMPTY_INTERRUPT(BADISR_vect);
-
-#define DEBOUNCE_CHECK_AMOUNT 3
-#define DEBOUNCE_DELAY_ITERATIONS 1000
 
 ISR(BUTTON_INTERRUPT_VEC)
 {
@@ -46,9 +38,6 @@ ISR(CUTOFF_TIMER_INTERRUPT_VEC)
 {
 	globalData.turnOnStarter = 0;
 }
-
-#define HALF_SECOND_INTERRUPTS_AMOUNT 25
-#define PULSE_THRESHOLD 5
 
 void initGlobalData(void)
 {

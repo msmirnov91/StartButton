@@ -37,17 +37,13 @@ void mainLoop(void)
 	}
 
 	if (getADCValue(TACH_CHANNEL) >= ENGINE_ON_LEVEL) {
-		globalData.engineIsRunning = 1;
-	} else {
-		globalData.engineIsRunning = 0;
-	}
-
-	if (globalData.engineIsRunning) {
 		globalData.turnOnStarter = 0;
+		globalData.engineIsRunning = 1;
 		indicateEngineIsRunning();
 	} else {
+		globalData.engineIsRunning = 0;
 		indicateEngineIsOff();
-	}	
+	}
 		
 	if (globalData.turnOnStarter) {
 		starterOn();	
