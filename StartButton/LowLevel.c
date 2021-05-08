@@ -7,16 +7,7 @@
 
 #include "LowLevel.h"
 #include "Defines.h"
-
-uint16_t getADCValue(uint8_t channel)
-{
-	ADMUX = (ADMUX & 0xf0) | channel;
-	ADCSRA |= (1 << ADSC);
-	while(!(ADCSRA & (1 << ADIF)));
-	ADCSRA |= (1 << ADIF);
- 
-	return ADC;
-}
+#include <avr/io.h>
 
 void turnOnPin(volatile uint8_t* port, uint8_t pin)
 {

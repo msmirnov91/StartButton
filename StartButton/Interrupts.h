@@ -8,9 +8,6 @@
 #ifndef INTERRUPTS_H_
 #define INTERRUPTS_H_
 
-#include "Defines.h"
-#include <util/delay.h>
-
 typedef struct GlobalData_impl
 {
 	int turnOnStarter;

@@ -6,8 +6,10 @@
  */ 
 
 #include "Setup.h"
+#include "Defines.h"
 #include "LowLevel.h"
 #include "Interrupts.h"
+#include <avr/io.h>
 
 void setupPins(void)
 {

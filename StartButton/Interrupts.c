@@ -6,8 +6,11 @@
  */ 
 
 #include "Interrupts.h"
+#include "Defines.h"
 #include "LowLevel.h"
-#include<avr/interrupt.h>
+#include <util/delay.h>
+#include <avr/interrupt.h>
+#include <avr/io.h>
 
 volatile GlobalData globalData;
 

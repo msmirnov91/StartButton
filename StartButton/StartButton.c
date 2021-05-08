@@ -5,9 +5,12 @@
  *  Author: mikhail
  */ 
 
+#include "Defines.h"
 #include "Setup.h"
 #include "LowLevel.h"
 #include "Interrupts.h"
+#include "Adc.h"
+#include <util/delay.h>
 
 void mainLoop(void);
 void testPCBLoop(void);

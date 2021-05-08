@@ -8,11 +8,6 @@
 #ifndef LOWLEVEL_H_
 #define LOWLEVEL_H_
 
-#include "Defines.h"
-#include <avr/io.h>
-
-uint16_t getADCValue(uint8_t channel);
-
 void ignitionOn(void);
 void ignitionOff(void);
 
