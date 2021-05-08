@@ -16,6 +16,8 @@
 
 /*  ======= THRESHOLDS =======  */
 #define ENGINE_ON_LEVEL 100
+#define LOW_VLOTAGE_LEVEL 615
+#define HIGH_VOLTAGE_LEVEL 935
 
 
 /*  ======= IO =======  */

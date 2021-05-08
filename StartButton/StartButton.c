@@ -28,6 +28,14 @@ int main(void)
 
 void mainLoop(void)
 {
+	uint16_t voltageLevel = getADCValue(VOLTAGE_CHANNEL);
+	if (voltageLevel <= LOW_VLOTAGE_LEVEL ||
+	    voltageLevel >= HIGH_VOLTAGE_LEVEL) {
+		indicateFatalError();
+	} else {
+		turnOffFatalErrorIndicaton();
+	}
+
 	if (getADCValue(TACH_CHANNEL) >= ENGINE_ON_LEVEL) {
 		globalData.engineIsRunning = 1;
 	} else {
