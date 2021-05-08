@@ -8,6 +8,7 @@
 #include "Interrupts.h"
 #include "Defines.h"
 #include "LowLevel.h"
+#include "Timers.h"
 #include <util/delay.h>
 #include <avr/interrupt.h>
 #include <avr/io.h>
@@ -59,26 +60,6 @@ void setupExternalInterrupts(void)
 	
 	// clear external interrupt flag
 	EIFR |= 1 << INTF0;
-}
-
-void enableTimerInterrupts(void)
-{
-	TIMSK1 |= 1 << OCIE1A;
-}
-
-void clearTimerInterruptsFlags(void)
-{
-	TIFR1 |= 1 << OCF1A;
-}
-
-void setupTimerInterrupts(void)
-{
-	/* use avrcalc tool to easily
-	get timer control register values */
-	initCutoffTimer();
-	
-	enableTimerInterrupts();
-	clearTimerInterruptsFlags();
 }
 
 void setupInterrupts(void)

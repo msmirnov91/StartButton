@@ -20,6 +20,4 @@ void indicateEngineIsOff(void);
 void indicateFatalError(void);
 void turnOffFatalErrorIndicaton(void);
 
-void initCutoffTimer(void);
-
 #endif /* LOWLEVEL_H_ */

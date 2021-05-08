@@ -7,6 +7,7 @@
 
 #include "LowLevel.h"
 #include "Defines.h"
+#include "Timers.h"
 #include <avr/io.h>
 
 void turnOnPin(volatile uint8_t* port, uint8_t pin)
@@ -19,43 +20,6 @@ void turnOffPin(volatile uint8_t* port, uint8_t pin)
 	*port &= ~(1 << pin);
 }
 
-void setCTCMode(volatile uint8_t* reg)
-{
-	if (*reg == TCCR1B)
-	{
-		*reg |= 1 << WGM12;
-		*reg &= ~(1 << WGM13);
-	}	
-}
-
-void startTimerDiv1024(volatile uint8_t* reg)
-{
-	if (*reg == TCCR1B)
-	{
-		*reg |= 1 << CS12;
-		*reg &= ~(1 << CS11);
-		*reg |= 1 << CS10;
-	}
-}
-
-void resetCutoffTimer(void)
-{
-	TCNT1 = TCNT_4_SEC;
-	TCCR1B &= STOP_TIMER_MASK;
-}
-
-void initCutoffTimer(void)
-{
-	setCTCMode(&TCCR1B);
-	resetCutoffTimer();
-	
-	OCR1A = OCR_4_SEC;
-}
-
-void startCutoffTimer(void)
-{
-	startTimerDiv1024(&TCCR1B);
-}
 
 void ignitionOn(void)
 {

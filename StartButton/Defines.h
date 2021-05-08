@@ -50,6 +50,8 @@
 /*  ======= TIMERS =======  */ 
 #define STOP_TIMER_MASK 0b11111000
 
+/* use avrcalc tool to easily get timer control register values */
+
 // 16 bit
 #define OCR_4_SEC 0xF424
 #define TCNT_4_SEC 0x0BDC
