@@ -8,7 +8,21 @@
 #include "LowLevel.h"
 #include "Defines.h"
 #include "Timers.h"
+
 #include <avr/io.h>
+
+void setupPins(void)
+{
+	STARTER_DDR |= 1 << STARTER_PIN;
+	STARTER_DDR |= 1 << IGNITION_PIN;
+
+	LED_DDR |= 1 << FATAL_ERROR_LED;
+	LED_DDR |= 1 << STARTER_LED;
+	LED_DDR |= 1 << IS_RUNNING_LED;
+	
+	INPUT_DDR &= ~(1 << BUTTON_PIN);
+	INPUT_PORT &= ~(1 << BUTTON_PIN);
+}
 
 void turnOnPin(volatile uint8_t* port, uint8_t pin)
 {

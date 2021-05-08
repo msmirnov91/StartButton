@@ -7,8 +7,7 @@
 
 #include "Interrupts.h"
 #include "Defines.h"
-#include "LowLevel.h"
-#include "Timers.h"
+
 #include <util/delay.h>
 #include <avr/interrupt.h>
 #include <avr/io.h>
@@ -60,15 +59,4 @@ void setupExternalInterrupts(void)
 	
 	// clear external interrupt flag
 	EIFR |= 1 << INTF0;
-}
-
-void setupInterrupts(void)
-{
-	cli();
-	
-	initGlobalData();
-	setupExternalInterrupts();
-	setupTimerInterrupts();
-	
-	sei();
 }

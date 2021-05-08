@@ -16,6 +16,7 @@ typedef struct GlobalData_impl
 
 extern volatile GlobalData globalData;
 
-void setupInterrupts(void);
+void initGlobalData(void);
+void setupExternalInterrupts(void);
 
 #endif /* INTERRUPTS_H_ */

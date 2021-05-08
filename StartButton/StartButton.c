@@ -6,18 +6,31 @@
  */ 
 
 #include "Defines.h"
-#include "Setup.h"
 #include "LowLevel.h"
 #include "Interrupts.h"
 #include "Adc.h"
+#include "Timers.h"
+
 #include <util/delay.h>
+#include <avr/interrupt.h>
 
 void mainLoop(void);
 void testPCBLoop(void);
 
 int main(void)
 {
-	setup();
+	setupPins();
+	setupADC();	
+
+	cli();
+
+	initGlobalData();
+	setupExternalInterrupts();
+	setupTimerInterrupts();
+
+	sei();
+	
+	starterOff();
 
     while(1)
     {

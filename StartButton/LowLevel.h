@@ -8,6 +8,8 @@
 #ifndef LOWLEVEL_H_
 #define LOWLEVEL_H_
 
+void setupPins(void);
+
 void ignitionOn(void);
 void ignitionOff(void);
 
