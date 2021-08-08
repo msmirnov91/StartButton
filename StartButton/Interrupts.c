@@ -42,10 +42,29 @@ ISR(CUTOFF_TIMER_INTERRUPT_VEC)
 	globalData.turnOnStarter = 0;
 }
 
+ISR(RPM_COUNT_TIMER_INTERRUPT_VEC)
+{
+	globalData.rpmCountTimerInterrupts += 1;
+	if (globalData.rpmCountTimerInterrupts == INTERRUPTS_PER_1SEC) {
+		globalData.rpmCountTimerInterrupts = 0;
+		
+		if (globalData.pulsesAmount > ENGINE_ON_LEVEL) {
+			globalData.engineIsRunning = 1;
+		}
+		else {
+			globalData.engineIsRunning = 0;
+		}
+
+		globalData.pulsesAmount = 0;	
+	}
+}
+
 void initGlobalData(void)
 {
 	globalData.turnOnStarter = 0;
 	globalData.engineIsRunning = 0;
+	globalData.rpmCountTimerInterrupts = 0;
+	globalData.pulsesAmount = 0;
 }
 
 void setupExternalInterrupts(void)

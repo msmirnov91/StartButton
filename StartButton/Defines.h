@@ -15,7 +15,7 @@
 
 
 /*  ======= THRESHOLDS =======  */
-#define ENGINE_ON_LEVEL 100
+#define ENGINE_ON_LEVEL 300
 #define LOW_VLOTAGE_LEVEL 615
 #define HIGH_VOLTAGE_LEVEL 935
 
@@ -42,6 +42,7 @@
 #define BUTTON_INTERRUPT_VEC INT0_vect
 
 #define CUTOFF_TIMER_INTERRUPT_VEC TIMER1_COMPA_vect
+#define RPM_COUNT_TIMER_INTERRUPT_VEC TIMER0_COMPA_vect
 
 #define DEBOUNCE_CHECK_AMOUNT 3
 #define DEBOUNCE_DELAY_ITERATIONS 1000
@@ -55,6 +56,10 @@
 // 16 bit
 #define OCR_4_SEC 0xF424
 #define TCNT_4_SEC 0x0BDC
+
+// 8 bit
+#define OCR_10_MSEC 0x9C
+#define INTERRUPTS_PER_1SEC 0x64
 
 
 /*  ======= ADC =======  */ 

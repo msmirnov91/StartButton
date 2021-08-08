@@ -12,6 +12,8 @@ typedef struct GlobalData_impl
 {
 	int turnOnStarter;
 	int engineIsRunning;
+	int rpmCountTimerInterrupts;
+	int pulsesAmount;
 } GlobalData;
 
 extern volatile GlobalData globalData;
