@@ -15,7 +15,7 @@
 
 
 /*  ======= THRESHOLDS =======  */
-#define ENGINE_ON_LEVEL 300
+#define ENGINE_ON_LEVEL 6
 #define LOW_VLOTAGE_LEVEL 615
 #define HIGH_VOLTAGE_LEVEL 935
 
@@ -67,7 +67,6 @@
 
 
 /*  ======= ADC =======  */ 
-#define TACH_CHANNEL 0
 #define VOLTAGE_CHANNEL 2
 
 

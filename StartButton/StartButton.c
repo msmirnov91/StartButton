@@ -52,16 +52,13 @@ void mainLoop(void)
 		turnOffFatalErrorIndicaton();
 	}
 
-	if (getADCValue(TACH_CHANNEL) >= ENGINE_ON_LEVEL) {
-		globalData.turnOnStarter = 0;
-		globalData.engineIsRunning = 1;
+	if (globalData.engineIsRunning) {
 		indicateEngineIsRunning();
 	} else {
-		globalData.engineIsRunning = 0;
 		indicateEngineIsOff();
 	}
 		
-	if (globalData.turnOnStarter) {
+	if (globalData.turnOnStarter && !globalData.engineIsRunning) {
 		starterOn();	
 	} else {
 		starterOff();
@@ -83,8 +80,7 @@ void testPCBLoop(void)
 	turnOffFatalErrorIndicaton();
 	_delay_ms(1000);
 	
-	unsigned int adcValue = getADCValue(TACH_CHANNEL);
-	if (adcValue >= ENGINE_ON_LEVEL) {
+	if (globalData.engineIsRunning) {
 		indicateEngineIsRunning();
 	} else {
 		indicateEngineIsOff();

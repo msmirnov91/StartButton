@@ -14,7 +14,4 @@ void setupTimerInterrupts(void);
 void startCutoffTimer(void);
 void resetCutoffTimer(void);
 
-void startRPMCountTimer(void);
-void stopRPMCountTimer(void);
-
 #endif /* TIMERS_H_ */
