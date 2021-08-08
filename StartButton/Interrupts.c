@@ -37,6 +37,11 @@ ISR(BUTTON_INTERRUPT_VEC)
 	}
 }
 
+ISR(TACH_INTERRUPT_VEC)
+{
+	globalData.pulsesAmount += 1;
+}
+
 ISR(CUTOFF_TIMER_INTERRUPT_VEC)
 {
 	globalData.turnOnStarter = 0;
@@ -46,8 +51,6 @@ ISR(RPM_COUNT_TIMER_INTERRUPT_VEC)
 {
 	globalData.rpmCountTimerInterrupts += 1;
 	if (globalData.rpmCountTimerInterrupts == INTERRUPTS_PER_1SEC) {
-		globalData.rpmCountTimerInterrupts = 0;
-		
 		if (globalData.pulsesAmount > ENGINE_ON_LEVEL) {
 			globalData.engineIsRunning = 1;
 		}
@@ -55,6 +58,7 @@ ISR(RPM_COUNT_TIMER_INTERRUPT_VEC)
 			globalData.engineIsRunning = 0;
 		}
 
+		globalData.rpmCountTimerInterrupts = 0;
 		globalData.pulsesAmount = 0;	
 	}
 }
@@ -73,9 +77,14 @@ void setupExternalInterrupts(void)
 	EICRA |= 1 << ISC01;
 	EICRA |= 1 << ISC00;
 	
+	EICRA |= 1 << ISC11;
+	EICRA |= 1 << ISC10;
+	
 	// enable external interrupt
 	EIMSK |= 1 << BUTTON_INTERRUPT;
+	EIMSK |= 1 << TACH_INTERRUPT;
 	
 	// clear external interrupt flag
 	EIFR |= 1 << INTF0;
+	EIFR |= 1 << INTF1;
 }

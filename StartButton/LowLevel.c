@@ -22,6 +22,8 @@ void setupPins(void)
 	
 	INPUT_DDR &= ~(1 << BUTTON_PIN);
 	INPUT_PORT &= ~(1 << BUTTON_PIN);
+	INPUT_DDR &= ~(1 << TACH_PIN);
+	INPUT_PORT &= ~(1 << TACH_PIN);
 }
 
 void turnOnPin(volatile uint8_t* port, uint8_t pin)
