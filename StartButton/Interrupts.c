@@ -50,7 +50,7 @@ ISR(CUTOFF_TIMER_INTERRUPT_VEC)
 ISR(RPM_COUNT_TIMER_INTERRUPT_VEC)
 {
 	globalData.rpmCountTimerInterrupts += 1;
-	if (globalData.rpmCountTimerInterrupts == INTERRUPTS_PER_1SEC) {
+	if (globalData.rpmCountTimerInterrupts == INTERRUPTS_PER_MEASURING_PERIOD) {
 		if (globalData.pulsesAmount > ENGINE_ON_LEVEL) {
 			globalData.engineIsRunning = 1;
 		}

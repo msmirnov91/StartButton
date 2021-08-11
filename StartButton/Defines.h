@@ -15,7 +15,7 @@
 
 
 /*  ======= THRESHOLDS =======  */
-#define ENGINE_ON_LEVEL 6
+#define ENGINE_ON_LEVEL 3
 #define LOW_VLOTAGE_LEVEL 615
 #define HIGH_VOLTAGE_LEVEL 935
 
@@ -63,7 +63,7 @@
 
 // 8 bit
 #define OCR_10_MSEC 0x9C
-#define INTERRUPTS_PER_1SEC 0x64
+#define INTERRUPTS_PER_MEASURING_PERIOD 50
 
 
 /*  ======= ADC =======  */ 
