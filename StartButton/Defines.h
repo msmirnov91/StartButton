@@ -23,8 +23,8 @@
 /*  ======= IO =======  */
 #define STARTER_DDR DDRC
 #define STARTER_PORT PORTC
-#define STARTER_PIN PC4
-#define IGNITION_PIN PC3
+#define STARTER_PIN PC3
+#define IGNITION_PIN PC4
 
 #define INPUT_DDR DDRD
 #define INPUT_PORT PORTD
