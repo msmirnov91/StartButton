@@ -53,6 +53,7 @@ ISR(RPM_COUNT_TIMER_INTERRUPT_VEC)
 	if (globalData.rpmCountTimerInterrupts == INTERRUPTS_PER_MEASURING_PERIOD) {
 		if (globalData.pulsesAmount > ENGINE_ON_LEVEL) {
 			globalData.engineIsRunning = 1;
+			globalData.turnOnStarter = 0;
 		}
 		else {
 			globalData.engineIsRunning = 0;
